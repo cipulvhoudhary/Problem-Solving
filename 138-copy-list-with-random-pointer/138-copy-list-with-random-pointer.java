@@ -19,6 +19,7 @@ class Solution {
         if(head == null) return null;
         
         HashMap<Node, Node> map = new HashMap<>();
+        map.put(null, null);
         Node temp = head;
         Node copy = new Node(0);
         Node t = copy;

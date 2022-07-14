@@ -31,43 +31,49 @@ class GFG {
 }
 // } Driver Code Ends
 
-class MeetingDetail {
-    int start;
-    int end;
-    public MeetingDetail(int start, int end) {
-        this.start = start;
-        this.end = end;
+class MeetingDetails {
+    int s;
+    int e;
+    public MeetingDetails(int s, int e) {
+        this.s = s;
+        this.e = e;
     }
 }
 
-class Solution 
-{
+class SortByEnd implements Comparator<MeetingDetails> {
+    public int compare(MeetingDetails m1, MeetingDetails m2) {
+        return m1.e - m2.e;
+    }
+}
+
+class Solution  {
     //Function to find the maximum number of meetings that can
     //be performed in a meeting room.
-    public static int maxMeetings(int start[], int end[], int n)
-    {
-        // add your code here
-        ArrayList<MeetingDetail> md = new ArrayList<>();
+    public static int maxMeetings(int start[], int end[], int n) {
+        ArrayList<MeetingDetails> md = new ArrayList<>();
+        for(int i=0; i<n; i++) {
+            md.add(new MeetingDetails(start[i], end[i]));
+        }
+        
+        Collections.sort(md, new SortByEnd());
+        
+        
+        int possibleMeetings = 0;
+        int lastEnd = -1;
         
         for(int i=0; i<n; i++) {
-            md.add(new MeetingDetail(start[i], end[i]));
-        }
-        
-        md.sort((o1, o2) -> {
-            return o1.end - o2.end;
-        });
-        
-        int lastEnd = -1, meeting = 0;
-        for(MeetingDetail meet : md) {
-            int s = meet.start;
-            int e = meet.end;
+            MeetingDetails currMeeting = md.get(i);
+            
+            int s = currMeeting.s;
+            int e = currMeeting.e;
             
             if(s > lastEnd) {
-                //room is vacant now;
-                meeting++;
+                possibleMeetings++;
                 lastEnd = e;
             }
+            
         }
-        return meeting;
+        
+        return possibleMeetings;
     }
 }

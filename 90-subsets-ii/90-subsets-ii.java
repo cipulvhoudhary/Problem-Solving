@@ -6,7 +6,6 @@ class Solution {
         //base - case :: if ind == N(nums.length) --> put the current subset in uniqueSubsets if it is unique
         if(ind == nums.length) {
             ArrayList<Integer> clone = new ArrayList<Integer>(subset);
-            Collections.sort(clone);
             if(!uniqueSubsets.contains(clone)) {
                 uniqueSubsets.add(clone);
             }
@@ -25,6 +24,7 @@ class Solution {
     }
     
     public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
         List<List<Integer>> uniqueSubsets = new ArrayList<>();
         ArrayList<Integer> subset = new ArrayList<Integer>();
         subsetsWithDupUtil(0, subset, nums, uniqueSubsets);

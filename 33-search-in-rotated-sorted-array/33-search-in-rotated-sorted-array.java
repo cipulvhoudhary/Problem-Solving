@@ -76,19 +76,19 @@ class Solution {
         //TC --> O(logN) || SC --> O(1)
         */
         
-//         if(nums[0] == target) {
-//             return 0;
-//         }
+         if(nums[0] == target) {
+             return 0;
+         }
         
-//         int N = nums.length;
-//         int pivot = getPivot(nums);
+         int N = nums.length;
+         int pivot = getPivot(nums);
         
-//         if(target > nums[0] && pivot != 0) {
-//             return searchUtil(nums, target, 0, pivot-1);
-//         }
-//         else {
-//             return searchUtil(nums, target, pivot, N-1);
-//         }
+         if(target > nums[0] && pivot != 0) {
+             return searchUtil(nums, target, 0, pivot-1);
+         }
+         else {
+             return searchUtil(nums, target, pivot, N-1);
+         }
         
         /* Approach - 2
         - Simple binary search template 

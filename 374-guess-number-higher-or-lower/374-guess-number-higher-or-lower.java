@@ -11,7 +11,7 @@ public class Solution extends GuessGame {
     public int guessNumber(int n) {
         int low = 1, high = n;
         while(low <= high) {
-            int mid = low + (high-low)/2;
+            int mid = (int)(((long)low + (long)high) / 2);
             if(guess(mid) == 0) {
                 return mid;
             }

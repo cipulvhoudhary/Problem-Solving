@@ -1,4 +1,11 @@
 class Solution {
+    /* Approach 
+    - Simple binary search template
+    - If nums[mid] and target are same return mid
+    - if nums[mid] > target --> target will never lie in right portion
+    - if nums[mid] < target --> target might lie in left portion, save mid's next index as answer
+    - TC --> O(logN) || SC --> O(1)
+    */
     public int searchInsert(int[] nums, int target) {
         
         int low = 0, high = nums.length-1;

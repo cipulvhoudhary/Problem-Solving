@@ -1,5 +1,5 @@
 class Solution {
-    /* Approach
+    /* Approach - 1
     - TC --> O(N * logM) || SC --> O(1)
     - For each element in nums1, we need to find an element in nums2 for which i < j && nums1[i] <= nums2[j]
     - Distance = j - i, if above two condition met
@@ -31,15 +31,35 @@ class Solution {
     
     public int maxDistance(int[] nums1, int[] nums2) {
         int N = nums1.length, M = nums2.length;
-        
         int maxD = 0;
-        for(int i=0; i<N; i++) {
-            int low = i;
-            int high = M-1;
-            int j = getIndexOfLastGreater(nums2, nums1[i], low, high);
+        
+//         for(int i=0; i<N; i++) {
+//             int low = i;
+//             int high = M-1;
+//             int j = getIndexOfLastGreater(nums2, nums1[i], low, high);
             
-            if(j != -1) {
+//             if(j != -1) {
+//                 maxD = Math.max(maxD, j-i);
+//             }
+//         }
+//         return maxD;
+        
+        /*Approach 2 
+        */
+        int i = 0, j = 0;
+        while(i < N && j < M) {
+            if(j < i) {
+                j = i;
+                continue;
+            }
+            
+            if(nums1[i] > nums2[j]) {
+                ++i;
+            }
+            else{
+                //condition met
                 maxD = Math.max(maxD, j-i);
+                j++;
             }
         }
         return maxD;

@@ -1,0 +1,54 @@
+Problem Link :: https://www.interviewbit.com/problems/allocate-books/
+
+public class Solution {
+    
+    //This function checks whether maxPages is enough to distribute boks to B students
+    // TC --> O(N) || SC --> O(1)
+    private boolean canBeAlloted(int maxPages, int[] A, int B) {
+        int pages = 0, stud = 1;
+        for(int i=0; i<A.length; i++) {
+            if(pages + A[i] > maxPages) {
+                stud++;
+                pages = A[i];
+            }
+            else {
+                pages += A[i];
+            }
+        }
+        if(stud > B) return false;
+        return true;
+    }
+    
+    public int books(int[] A, int B) {
+        /*Search space -->
+        - low --> if every book is alloted to one student only(N=B), minimum possible = maximum no of pages 
+        - high = if B=1 and all the pages are alloted to a single student
+        - TC --> O(N * log(high - low)) or O(N * log(Range))
+        - SC --> O(1)
+        */
+        //Edge - case
+        if(B > A.length) return -1; //since we cannot allocate 1 book to each students
+        
+        int low = Integer.MIN_VALUE;
+        int high = 0;
+        for(int pages : A) {
+            low = Math.max(low, pages);
+            high += pages;
+        }
+        
+        int ans = -1;
+        while(low <= high) { // TC --> O(N * log(Range)) 
+            int mid = low + (high - low) / 2;
+            
+            if(canBeAlloted(mid, A, B)) { O(N)
+                ans = mid; 
+                high = mid - 1;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+    
+}

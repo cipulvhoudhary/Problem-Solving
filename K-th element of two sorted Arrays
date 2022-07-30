@@ -1,0 +1,43 @@
+Problem link :: https://practice.geeksforgeeks.org/problems/k-th-element-of-two-sorted-array1317/1
+class Solution {
+    
+    private long countBelowInArray(int[] arr, long target) {
+        long ind = -1;
+        long low = 0, high = arr.length-1;
+        while(low <= high) {
+            long mid = low + (high - low) / 2;
+            
+            if((long)arr[(int)mid] >= target) {
+                high = mid - 1;
+            }
+            else {
+                ind = mid;
+                low = mid + 1;
+            }
+        }
+        return ind + 1;
+    }
+    
+    public long kthElement( int arr1[], int arr2[], int n, int m, int k) {
+        long low = Math.min(arr1[0], arr2[0]);
+        long high = Math.max(arr1[n-1], arr2[m-1]);
+        
+        long ans = -1;
+        while(low <= high) {
+            long mid = (low+high)>>1;
+            
+            long count = countBelowInArray(arr1, mid);
+            count += countBelowInArray(arr2, mid);
+            
+            if(count > k-1) {
+                high = mid - 1;
+            }
+            else {
+                ans = mid;
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+    
+}

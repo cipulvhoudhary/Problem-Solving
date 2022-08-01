@@ -76,7 +76,7 @@ class Solution {
     }
     
     public int minSubArrayLen(int target, int[] nums) {
-        //return minSubArrayLenUtil1(target, nums); // TC --> O(N * logN) || SC --> O(N)
+        return minSubArrayLenUtil1(target, nums); // TC --> O(N * logN) || SC --> O(N)
         
         return minSubArrayLenUtil2(target, nums); // TC --> O(N) || SC --> O(1) 
     }

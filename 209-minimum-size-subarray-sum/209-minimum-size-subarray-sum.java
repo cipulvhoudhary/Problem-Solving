@@ -31,24 +31,20 @@ class Solution {
         int minL = Integer.MAX_VALUE;
         // Building prefix sum array
         int[] prefixSum = new int[N];
-        prefixSum[0] = nums[0];
-        
-        if(prefixSum[0] >= target) minL = 1;
-        
+        prefixSum[0] = nums[0];        
         for(int i=1; i<N; i++) { //O(N)
             //check if any element is equal to target 
             if(nums[i] == target) return 1;
             
             prefixSum[i] = prefixSum[i-1] + nums[i];
-            
-            if(prefixSum[i] >= target) {
-                minL = Math.min(minL, i+1);
-            }
         }
         
         
         //O(N * logN)
         for(int i=0; i<N; i++) { 
+            if(prefixSum[i] >= target) {
+                minL = Math.min(minL, i+1); //Edge-case 2
+            }
             int newTarget = prefixSum[i] - target; 
             if(newTarget > 0) {
                 int j = getNewTargetIndex(prefixSum, newTarget, 0, N-1);

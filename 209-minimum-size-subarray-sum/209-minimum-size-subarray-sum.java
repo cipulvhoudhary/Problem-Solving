@@ -26,7 +26,7 @@ class Solution {
         return ans;
     }
     
-    public int minSubArrayLen(int target, int[] nums) {
+    private int minSubArrayLenUtil1(int target, int[] nums) {
         int N = nums.length;
         int minL = Integer.MAX_VALUE;
         // Building prefix sum array
@@ -56,6 +56,29 @@ class Solution {
         
         if(minL != Integer.MAX_VALUE) return minL;
         return 0;
+    }
+    
+    private int minSubArrayLenUtil2(int target, int[] nums) {
+        int N = nums.length;
+        int i=0, j=0, sum=0, minL = Integer.MAX_VALUE;
+        
+        while(j < N) {
+            sum += nums[j];
+            j++;
+            
+            while(sum >= target) {
+                minL = Math.min(minL, j-i);
+                sum -= nums[i];
+                i++;
+            }
+        }
+        return minL == Integer.MAX_VALUE ? 0 : minL;
+    }
+    
+    public int minSubArrayLen(int target, int[] nums) {
+        //return minSubArrayLenUtil1(target, nums); // TC --> O(N * logN) || SC --> O(N)
+        
+        return minSubArrayLenUtil2(target, nums); // TC --> O(N) || SC --> O(1) 
     }
     
 }

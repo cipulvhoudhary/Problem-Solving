@@ -55,8 +55,8 @@ class Solution {
     }
     
     public int uniquePaths(int m, int n) {
-        // return uniquePathsMemoization(m, n);
-        return uniquePathsTabulation(m, n);
+        return uniquePathsMemoization(m, n);
+        // return uniquePathsTabulation(m, n);
         // return uniquePathsTabulationSpaceOptimized(m, n);
     }
 }

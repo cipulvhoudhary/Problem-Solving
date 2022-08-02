@@ -1,5 +1,6 @@
 class Solution {
     
+    //Soution - 1 [Helper]
     // Helper function of minCostClimbingStairsMemoization(cost)
     private int minCostClimbingStairsMemoizationUtil(int[] cost, int N, int[] dp) {
         //Base - case
@@ -15,6 +16,7 @@ class Solution {
         return dp[N];
     }
     
+    //Soution - 1
     // Dp with Memoization :: TC --> O(N) || SC --> O(N)
     private int minCostClimbingStairsMemoization(int [] cost) {
         int N = cost.length;
@@ -23,6 +25,7 @@ class Solution {
         return minCostClimbingStairsMemoizationUtil(cost, N, dp);
     }
     
+    //Soution - 2
     // Dp with Tabulation :: TC --> O(N) || SC --> O(N)
     private int minCostClimbingStairsTabulation(int[] cost) {
         int N = cost.length;
@@ -39,6 +42,8 @@ class Solution {
         return dp[N];
     }
     
+    //Soution - 3
+    // Dp with Tabulation || Space Optimized :: TC --> O(N) || SC --> O(1)
     private int minCostClimbingStairsTabulationSpaceOptimized(int[] cost) {
         int N = cost.length;
         
@@ -73,8 +78,8 @@ class Solution {
         - To reach N from(N-1) --> cost = cost[N-2]
         - Return the min of the two in order to get min cost
         */
-        // return minCostClimbingStairsMemoization(cost);
-        // return minCostClimbingStairsTabulation(cost);
+        return minCostClimbingStairsMemoization(cost);
+        return minCostClimbingStairsTabulation(cost);
         return minCostClimbingStairsTabulationSpaceOptimized(cost);
     }
     

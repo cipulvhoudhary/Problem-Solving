@@ -1,5 +1,12 @@
 class Solution {
     
+    /* Approach 
+    - To rob the at ith index or not [Decision] [Traversinf Right --> Left]
+    - If we rob ith index house, we can rob any house at index <= (i-2)th house
+    - If we don't rob ith index house, we can rob any house at index <= (i-1)th house
+    */
+    
+    //Helper function from robMemoization()
     private int robMemoizationUtil(int[] nums, int ind, int[] dp) {
         // base - case
         if(ind < 0) return 0;
@@ -15,6 +22,8 @@ class Solution {
         return dp[ind];
     }
     
+    //Solution-1  
+    //DP with memoization :: TC --> O(N) || SC --> O(N)
     private int robMemoization(int[] nums) {
         int N = nums.length;
         int[] dp = new int[N+1]; 
@@ -22,7 +31,11 @@ class Solution {
         return robMemoizationUtil(nums, N-1, dp);
     }
     
+    //Solution-2
+    //DP with Tabulation :: TC --> O(N) || SC --> O(N)
     private int robTabulation(int[] nums) {
+        // Tabulation is a bottoms-up approach 
+        // Here we start with base - condition and move forward till last element
         int N = nums.length;
         int[] dp = new int[N+1];
         
@@ -40,11 +53,15 @@ class Solution {
         return dp[N-1];
     }
     
+    //Solution-3
+    //DP with Tabulation || Space - optimized :: TC --> O(N) || SC --> O(1)
     private int robTabulationSpaceOptimized(int[] nums) {
         int N = nums.length;
         if(N == 1) return nums[0];
         if(N == 2) return Math.max(nums[0], nums[1]);
         
+        //Instead of using array we can do it with just two variable.
+        // To fill ith index, we just need the (i-1)th value and (i-2)nd index value 
         int a = nums[0], b = Math.max(nums[0], nums[1]), c = 0;
         for(int i=2; i<N; i++) {
             c = Math.max(nums[i]+a, b);

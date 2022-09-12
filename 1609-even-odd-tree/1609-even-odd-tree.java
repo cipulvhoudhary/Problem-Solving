@@ -14,69 +14,29 @@
  * }
  */
 class Solution {
-    
-    private boolean isSatisfying(ArrayList<Integer> level, boolean isEven) {
-        if(isEven) { // level --> even
-            //check if all the values are strictly incresing and odd
-            int prev = Integer.MIN_VALUE;
-            for(int e : level) {
-                if(e > prev && e%2 != 0) {
-                    prev = e;
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-        if(!isEven) { // level --> odd
-            //check if all the values are strictly decreasing and even
-            int prev = Integer.MAX_VALUE;
-            for(int e : level) {
-                if(e < prev && e%2 == 0) {
-                    prev = e;
-                }
-                else {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    
     public boolean isEvenOddTree(TreeNode root) {
-        if(root.val%2 == 0) return false; // violating second instruction
-        
-        // The idea is to do a level order traversal and for every level, check if the level is following all the condition
+        if(root.val % 2 == 0) return false;
         
         Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
-        boolean isEven = true;
+        boolean level = true; // true : even || false : odd
         
         while(!q.isEmpty()) {
-            //change the isEven switch
-            if(isEven) {
-                isEven = false;
-            }
-            else {
-                isEven = true;
-            }
-            
-            ArrayList<Integer> level = new ArrayList<>();
             int size = q.size();
+            int prev = 0;
+            prev = (level) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            
             for(int i=0; i<size; i++) {
                 TreeNode temp = q.poll();
                 
-                if(temp.left != null) {
-                    level.add(temp.left.val);
-                    q.add(temp.left);
-                }
+                if(level && (temp.val <= prev || temp.val%2 == 0)) return false;
+                if(!level && (temp.val >=prev || temp.val%2 != 0)) return false;
+                prev = temp.val;
                 
-                if(temp.right != null) {
-                    level.add(temp.right.val);
-                    q.add(temp.right);
-                }
+                if(temp.left != null) q.add(temp.left);
+                if(temp.right != null) q.add(temp.right);
             }
-            if(!isSatisfying(level, isEven)) return false;
+            level = !level; // switch the label
         }
         return true;
     }

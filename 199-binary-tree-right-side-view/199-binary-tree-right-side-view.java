@@ -24,11 +24,15 @@ class Solution {
         
         while(!q.isEmpty()) {
             int size = q.size();
-            List<Integer> level = new ArrayList<>();
+            // List<Integer> level = new ArrayList<>();
             
             for(int i=0; i<size; i++) {
                 TreeNode temp = q.poll();
-                level.add(temp.val);
+                // level.add(temp.val);
+                
+                if(i == size-1) {
+                    rightView.add(temp.val);
+                }
                 
                 if(temp.left != null) {
                     q.add(temp.left);
@@ -38,7 +42,7 @@ class Solution {
                 }
                 
             }
-            rightView.add(level.get(level.size()-1));
+            // rightView.add(level.get(level.size()-1));
         }
         return rightView;
     }

@@ -14,7 +14,11 @@
  * }
  */
 class Solution {
+    /* Approach : 
+    - TC --> O(N) || SC --> O(N); [Skewed Tree]
+    - DFS traversal and add the last element of every level */
     public List<Integer> rightSideView(TreeNode root) {
+        
         List<Integer> rightView = new ArrayList<>();
         
         if(root == null) return rightView;

@@ -24,9 +24,21 @@ class Solution {
         store(root.right, inOrder);
     }
     
+    private void kthSmallestUtil(TreeNode root, int k) {
+        if(root == null) return;
+        
+        kthSmallestUtil(root.left, k);
+        count++;
+        if(count == k) kthSmallestElement = root.val;
+        kthSmallestUtil(root.right, k);
+    }
+    
+    int kthSmallestElement = -1, count = 0;
     public int kthSmallest(TreeNode root, int k) {
-        ArrayList<Integer> inOrder = new ArrayList<>();
-        store(root, inOrder);
-        return inOrder.get(k-1);
+        // ArrayList<Integer> inOrder = new ArrayList<>();
+        // store(root, inOrder);
+        // return inOrder.get(k-1);
+        kthSmallestUtil(root, k); // TC --> O(N) || SC == O(N)
+        return kthSmallestElement;
     }
 }

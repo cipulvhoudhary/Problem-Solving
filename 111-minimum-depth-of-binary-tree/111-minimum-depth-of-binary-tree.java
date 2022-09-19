@@ -21,9 +21,9 @@ class Solution {
         int leftDepth = minDepth(root.left);
         int rightDepth = minDepth(root.right);
         
-        if(leftDepth == 0) leftDepth = Integer.MAX_VALUE;
-        if(rightDepth == 0) rightDepth = Integer.MAX_VALUE;
-        
+        if(leftDepth == 0 || rightDepth == 0) {
+            return 1 + leftDepth + rightDepth;
+        }
         return 1 + Math.min(leftDepth, rightDepth);
     }
 }

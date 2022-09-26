@@ -1,37 +1,30 @@
 class Solution {
-    /* Approach 
-    - Application of House Robber 1
-    - Apply hr1(0, n-2) and hr(1, n-1) 
-    - Since 1st and last house are connected here
-    */
     
-    // House robber 1 :: TC --> O(N) || SC -- O(1)
-    private int houseRobberSpaceOptimized(int[] nums, int start, int end) {
-        //Base - case
-        if(start == end) return nums[start];
-        int N = end - start + 1;
-        if(N == 1) return nums[start];
-        if(N == 2) return Math.max(nums[start], nums[start+1]);
+    private int robUtil(int s, int e, int[] nums, int[] dp) {
+        // Base - case
+        if(e < s) return 0;
         
-        int prev1 = nums[start];
-        int prev2 = Math.max(nums[start], nums[start+1]);
-        int curr = 0;
-        for(int i=start+2; i<=end; i++) {
-            curr = Math.max(nums[i]+prev1, prev2);
-            prev1 = prev2;
-            prev2 = curr;
+        if(dp[e] == -1) {
+            int notTake = 0 + robUtil(s, e-1, nums, dp);
+            int take = nums[e] + robUtil(s, e-2, nums, dp);
+            dp[e] = Math.max(notTake, take);
         }
-        return curr;
+        return dp[e];
     }
     
     public int rob(int[] nums) {
+        int N = nums.length;
+        // Edge - cese
+        if(N == 1) return nums[0];
+        int[] dp = new int[N];
         
-        //Base - case
-        if(nums.length == 1) return nums[0];     
+        Arrays.fill(dp, -1);
+        int ans1 = robUtil(0, N-2, nums, dp);
         
-        int x = houseRobberSpaceOptimized(nums, 0, nums.length-2);  
-        int y = houseRobberSpaceOptimized(nums, 1, nums.length-1);
-        return Math.max(x, y);
+        Arrays.fill(dp, -1); // Since dp is a reference type, we need to clear it again
+        int ans2 = robUtil(1, N-1, nums, dp);
+        
+        return Math.max(ans1, ans2);
     }
     
 }

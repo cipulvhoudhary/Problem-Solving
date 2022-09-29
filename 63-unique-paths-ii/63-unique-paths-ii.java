@@ -62,7 +62,47 @@ class Solution {
         return dp[m-1][n-1];
     }
     
+    private int uniquePathsWithObstaclesSpaceOptimized(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+
+        int[] dp = new int[n];
+        
+        boolean colObstacle = false;
+        for(int col=0; col<n; col++) {
+            if(obstacleGrid[0][col] == 1) {
+                colObstacle = true;
+            }
+            if(!colObstacle) {
+                dp[col] = 1;
+            }
+        }
+        
+        for(int row=1; row<m; row++) {
+            int[] temp = new int[n];
+            
+            if(dp[0] == 0) {
+                temp[0] = 0;
+            }
+            else if(obstacleGrid[row][0] == 0) {
+                temp[0] = 1;
+            }
+            
+            for(int col=1; col<n; col++) {
+                if(obstacleGrid[row][col] == 1) {
+                    temp[col] = 0;
+                }
+                else {
+                    temp[col] = temp[col-1] + dp[col];
+                }
+            }
+            dp = temp;
+        }
+        return dp[n-1];
+    }
+    
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+//         Memoization 
 //         int m = obstacleGrid.length;
 //         int n = obstacleGrid[0].length;
         
@@ -73,7 +113,11 @@ class Solution {
         
 //         return uniquePathsWithObstaclesMemoizationUtil(m-1, n-1, obstacleGrid, dp);
         
-        return uniquePathsWithObstaclesTabulationUtil(obstacleGrid);
+        // Tabulation
+        // return uniquePathsWithObstaclesTabulationUtil(obstacleGrid);
         
+        // Space Optimized
+        return uniquePathsWithObstaclesSpaceOptimized(obstacleGrid);
+            
     }
 }

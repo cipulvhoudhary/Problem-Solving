@@ -41,6 +41,26 @@ class Solution {
         return dp[m-1][n-1];
     }
     
+    private int minPathSumSpaceOptimizedUtil(int m, int n, int[][] grid) {
+        int[] dp = new int[n];
+        
+        dp[0] = grid[0][0];
+        // filling top row, i.e dp
+        for(int col=1; col<n; col++) {
+            dp[col] = grid[0][col] + dp[col-1];
+        }
+        
+        for(int row=1; row<m; row++) {
+            int[] temp = new int[n];
+            temp[0] = grid[row][0] + dp[0];
+            for(int col=1; col<n; col++) {
+                temp[col] = grid[row][col] + Math.min(dp[col], temp[col-1]);
+            }
+            dp = temp;
+        }
+        return dp[n-1];
+    }
+    
     public int minPathSum(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -52,6 +72,8 @@ class Solution {
         
 //         return minPathSumUtil(m-1, n-1, grid, dp);
         
-        return minPathSumTabulationUtil(m, n, grid);
+        // return minPathSumTabulationUtil(m, n, grid);
+        
+        return minPathSumSpaceOptimizedUtil(m, n, grid);
     }
 }

@@ -1,5 +1,6 @@
 class Solution {
     
+    // Memoization(Top down) :: TC--> O(M*N) || SC --> O(M*N)
     private int minimumTotalUtil(int row, int col, int numRows, List<List<Integer>> triangle, int[][] dp) {
         //Boundary - case
         if(row >= numRows) return Integer.MAX_VALUE;
@@ -16,14 +17,55 @@ class Solution {
         return dp[row][col];
     }
     
-    public int minimumTotal(List<List<Integer>> triangle) {
-        int numRows = triangle.size();
+    // Tabulation(Bottoms up) :: TC--> O(M*N) || SC --> O(M*N)
+    private int minimumTotalTabluationUtil(List<List<Integer>> triangle) {
+        int m = triangle.size();
+        int n = triangle.get(m-1).size();
+        int[][] dp = new int[m][n];
         
-        int[][] dp = new int[numRows][triangle.get(numRows-1).size()];
-        for(int[] row : dp) {
-            Arrays.fill(row, -1);
+        // Base - case
+        dp[0][0] = triangle.get(0).get(0);
+        // setting inf at voids
+        int start = 1;
+        for(int row=0; row<m; row++) {
+            for(int col=start; col<n; col++) {
+                dp[row][col] = Integer.MAX_VALUE;
+            }
+            start++;
         }
         
-        return minimumTotalUtil(0, 0, numRows, triangle, dp);
+        //setting first col
+        for(int row=1; row<m; row++) {
+            dp[row][0] = triangle.get(row).get(0) + dp[row-1][0];
+        }
+        
+        int minSum = dp[m-1][0];
+        for(int row=1; row<m; row++) {
+            for(int col=1; col<n; col++) {
+                if(dp[row][col] == Integer.MAX_VALUE) continue;
+                int top = dp[row-1][col];
+                int tLeft = dp[row-1][col-1];
+                
+                dp[row][col] = triangle.get(row).get(col) + Math.min(top, tLeft);
+                
+                if(row == m-1) {
+                    minSum = Math.min(minSum, dp[row][col]);
+                }
+            }
+        }
+        return minSum;
+    }
+    
+    public int minimumTotal(List<List<Integer>> triangle) {
+//         int numRows = triangle.size();
+        
+//         int[][] dp = new int[numRows][triangle.get(numRows-1).size()];
+//         for(int[] row : dp) {
+//             Arrays.fill(row, -1);
+//         }
+        
+//         return minimumTotalUtil(0, 0, numRows, triangle, dp);
+        
+        return minimumTotalTabluationUtil(triangle);
     }
 }

@@ -56,6 +56,41 @@ class Solution {
         return minSum;
     }
     
+    // Space - optimized :: TC--> O(M*N) || SC --> O(rows) or O(M)
+    private int minimumTotalSpaceOptimizedUtil(List<List<Integer>> triangle) {
+        int m = triangle.size();
+        int n = triangle.get(m-1).size();
+        
+        int[] dp = new int[m];
+        
+        //setting up first col, i.e dp[]
+        dp[0] = triangle.get(0).get(0);
+        for(int row=1; row<m; row++) {
+            dp[row] = triangle.get(row).get(0) + dp[row-1];
+        }
+        
+        int start = 1;
+        int minSum = dp[m-1];
+        for(int col=1; col<n; col++) {
+            
+            int[] temp = new int[m];
+            for(int i=0; i<start; i++) {
+                temp[i] = Integer.MAX_VALUE;
+            }
+            
+            for(int row=start; row<m; row++) {
+                temp[row] = triangle.get(row).get(col) + Math.min(temp[row-1], dp[row-1]);
+            }
+            
+            minSum = Math.min(minSum, temp[m-1]);
+            
+            start++;
+            dp = temp;
+        }
+        
+        return minSum;
+    }
+    
     public int minimumTotal(List<List<Integer>> triangle) {
 //         int numRows = triangle.size();
         
@@ -66,6 +101,8 @@ class Solution {
         
 //         return minimumTotalUtil(0, 0, numRows, triangle, dp);
         
-        return minimumTotalTabluationUtil(triangle);
+        // return minimumTotalTabluationUtil(triangle);
+        
+        return minimumTotalSpaceOptimizedUtil(triangle);
     }
 }

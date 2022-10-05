@@ -44,6 +44,32 @@ class Solution {
         return dp[N-1][target];
     }
     
+    private boolean canPartitionSpaceOptimizedUtil(int N, int[] nums, int target) {
+        boolean[] dp = new boolean[target+1];
+        
+        // Base - case
+        dp[0] = true; // when target = 0
+        for(int t=1; t<=target; t++) {
+            if(nums[0] == t) dp[t] = true;
+        }
+        
+        // Main - logic
+        for(int ind=1; ind<N; ind++) {
+            boolean[] temp = new boolean[target+1];
+            temp[0] = true; // when target = 0
+            for(int t=1; t<=target; t++) {
+                boolean notTake = dp[t];
+                boolean take = false;
+                if(t >= nums[ind]) {
+                    take = dp[t-nums[ind]];
+                }
+                temp[t] = (notTake || take);
+            }
+            dp = temp;
+        }
+        return dp[target];
+    }
+    
     public boolean canPartition(int[] nums) {
         int totalSum = 0;
         for(int e : nums) totalSum += e;
@@ -59,6 +85,8 @@ class Solution {
         
 //         return canPartitionMemoizationUtil(N-1, nums, target, dp);
         
-        return canPartitionTabulationUtil(N, nums, target);
+        // return canPartitionTabulationUtil(N, nums, target);
+        
+        return canPartitionSpaceOptimizedUtil(N, nums, target);
     }
 }

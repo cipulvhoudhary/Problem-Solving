@@ -42,6 +42,30 @@ class Solution {
         return dp[N-1][amount];
     }
     
+    private int coinChangeSpaceOptimized(int N, int[] coins, int amount) {
+        int[] dp = new int[amount+1];
+        int[] temp = new int[amount+1];
+        
+        for(int amt=0; amt<=amount; amt++) {
+            if(amt%coins[0] == 0) dp[amt] = amt/coins[0];
+            else dp[amt] = 1000000000;
+        }
+        
+        for(int ind=1; ind<N; ind++) {
+            for(int amt=0; amt<=amount; amt++) {
+                int notTake = dp[amt];
+                int take = 1000000000;
+                if(amt >= coins[ind]) {
+                    take = 1 + temp[amt-coins[ind]];
+                }
+
+                temp[amt] = Math.min(notTake, take);
+            }
+            dp = temp; 
+        }
+        return dp[amount];
+    }
+    
     public int coinChange(int[] coins, int amount) {
         int N = coins.length;
         
@@ -50,7 +74,9 @@ class Solution {
         
 //         int ans = coinChangeMemoizationUtil(N-1, coins, amount, dp);
         
-        int ans = coinChangeTabulationUtil(N, coins, amount);
+        // int ans = coinChangeTabulationUtil(N, coins, amount);
+        
+        int ans = coinChangeSpaceOptimized(N, coins, amount);
         
         if(ans == 1000000000) return -1;
         return ans;

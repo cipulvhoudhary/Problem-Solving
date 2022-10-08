@@ -44,6 +44,34 @@ class Solution {
         return dp[N-1][target];
     }
     
+    private int changeSpaceOptimized(int N, int target, int[] coins) {
+        int[] dp = new int[target+1];
+        
+        // Base - case
+        for(int ind=0; ind<N; ind++) dp[0] = 1; // There is only one way
+        
+        for(int t=1; t<=target; t++) {
+            if(t%coins[0] == 0) dp[t] = 1;
+        }
+        
+        // Main - logic
+        for(int ind=1; ind<N; ind++) {
+            int[] temp = new int[target+1];
+            temp[0] = 1;
+            for(int t=1; t<=target; t++) {
+                int notTake = dp[t];
+                int take = 0;
+                if(t >= coins[ind]) {
+                    take = temp[t-coins[ind]];
+                }
+
+                temp[t] = (notTake + take);
+            }
+            dp = temp;
+        }
+        return dp[target];
+    }
+    
     public int change(int amount, int[] coins) {
         int N = coins.length;
         if(amount == 0) return 1;
@@ -53,7 +81,9 @@ class Solution {
         
 //         return changeUtil(N-1, amount, coins, dp);
         
-        return changeTabulationUtil(N, amount, coins);
+        // return changeTabulationUtil(N, amount, coins);
+        
+        return changeSpaceOptimized(N, amount, coins);
     }
     
 }

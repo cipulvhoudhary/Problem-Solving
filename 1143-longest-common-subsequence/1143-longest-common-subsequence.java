@@ -47,6 +47,38 @@ class Solution {
         return dp[l1-1][l2-1];
     }
     
+    private int longestCommonSubsequenceSpaceOptimized(int l1, int l2, String text1, String text2) {
+        int[] dp = new int[l2];
+        
+        dp[0] = (text1.charAt(0) == text2.charAt(0)) ? 1 : 0;
+        
+        
+        for(int j=1; j<l2; j++) { // filling first row
+            dp[j] = (text1.charAt(0) == text2.charAt(j)) ? 1 : dp[j-1];
+        }
+        
+        
+        for(int i=1; i<l1; i++) {
+            
+            int[] temp = new int[l2];
+            temp[0] = (text1.charAt(i) == text2.charAt(0)) ? 1 : dp[0];
+            
+            int left = temp[0];
+            
+            for(int j=1; j<l2; j++) {
+                if(text1.charAt(i) == text2.charAt(j)) {
+                    temp[j] = 1 + dp[j-1];
+                }
+                else {
+                    temp[j] = Math.max(left, dp[j]);
+                }
+                left = dp[j];
+            }
+            dp = temp;
+        }
+        return dp[l2-1];
+    }
+    
     
     public int longestCommonSubsequence(String text1, String text2) {
         int l1 = text1.length(), l2 = text2.length();
@@ -57,6 +89,10 @@ class Solution {
         
 //         return longestCommonSubsequenceUtil(l1-1, l2-1, text1, text2, dp);
         
+        // Tabulation
+        // return longestCommonSubsequenceTabulation(l1, l2, text1, text2);
+        
+        // Space optimized 
         return longestCommonSubsequenceTabulation(l1, l2, text1, text2);
     }
     

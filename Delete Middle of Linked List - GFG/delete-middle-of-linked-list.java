@@ -56,31 +56,30 @@ class Node {
 
 class Solution {
     
-    static Node get2ndMid(Node head) {
+    static Node getFirstMid(Node head) {
         Node slow = head;
         Node fast = head;
         
-        while(fast != null && fast.next != null) {
+        while(fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
         return slow;
     }
+    
     Node deleteMid(Node head) {
         // This is method only submission.
         // You only need to complete the method.
-        if(head  == null || head.next == null) return null;
-        if(head.next.next == null) {
-            head.next = null;
-            return head;
-        }
+        if(head == null || head.next == null) return null;
         
-        Node mid = get2ndMid(head);
+        Node dummy = new Node(0);
+        dummy.next = head;
+        Node mid = getFirstMid(dummy);
         
-        mid.data = mid.next.data;
         Node temp = mid.next;
-        mid.next = mid.next.next;
+        mid.next = temp.next;
         temp.next = null;
+        dummy.next = null;
         return head;
     }
 }

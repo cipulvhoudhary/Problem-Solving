@@ -130,19 +130,18 @@ class Tree {
         if(root == null) return postOrder;
         
         Stack<Node> st1 = new Stack<>();
-        Stack<Node> st2 = new Stack<>();
         
         st1.push(root);
         
         while(!st1.isEmpty()) {
             Node node = st1.pop();
             
-            postOrder.add(0, node.data);
+            postOrder.add(node.data);
             
             if(node.left != null) st1.push(node.left);
             if(node.right != null) st1.push(node.right);
         }
-        
+        Collections.reverse(postOrder);
         return postOrder;
     }
 }

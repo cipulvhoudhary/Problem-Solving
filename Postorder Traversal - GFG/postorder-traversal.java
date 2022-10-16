@@ -137,14 +137,10 @@ class Tree {
         while(!st1.isEmpty()) {
             Node node = st1.pop();
             
-            st2.push(node);
+            postOrder.add(0, node.data);
             
             if(node.left != null) st1.push(node.left);
             if(node.right != null) st1.push(node.right);
-        }
-        
-        while(!st2.isEmpty()) {
-            postOrder.add(st2.pop().data);
         }
         
         return postOrder;

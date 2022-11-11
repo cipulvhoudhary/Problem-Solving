@@ -14,8 +14,7 @@ class Solution {
                 set.remove(s.charAt(i));
             }
             set.add(s.charAt(i));
-            int len = i-j+1;
-            maxLen = Math.max(len, maxLen);
+            maxLen = Math.max(set.size(), maxLen);
         }
         return maxLen;
     }

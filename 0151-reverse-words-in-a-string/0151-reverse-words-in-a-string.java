@@ -1,41 +1,47 @@
 class Solution {
     
-    private int getFisrstLetterIndex(String str, int ind, int N) {
-        while(ind < N && str.charAt(ind) == ' ') {
-            ind++;
-        }
-        return ind;
-    }
-    
-    private String reverse(String s) {
+    private String reverse(String str) {
         StringBuilder sb = new StringBuilder();
-        for(int i=s.length()-1; i>=0; i--) {
-            sb.append(s.charAt(i));
+        for(int i=str.length()-1; i>=0; i--) {
+            sb.append(str.charAt(i));
         }
         return sb.toString();
     }
     
+    private int getFirstLetterIndex(int ind, String str) {
+        while(ind < str.length()) {
+            if(str.charAt(ind) != ' ') {
+                return ind;
+            }
+            ind++;
+        }    
+        return str.length();
+    }
+    
     public String reverseWords(String s) {
-        int N = s.length();
-        String str = reverse(s);
+        String rev = reverse(s);
         
         StringBuilder sb = new StringBuilder();
         
         int i=0;
-        while(i<N) {
-            i = getFisrstLetterIndex(str, i, N);
-            if(i == N) break;
+        while(i < rev.length()) {
+            i = getFirstLetterIndex(i, rev);
+            if(i >= rev.length()) break;
             
-            int j=i;
-            while(j<N && str.charAt(j) != ' ') {
+            int j = i;
+            
+            
+            while(j < rev.length() && rev.charAt(j) != ' ') {
                 j++;
             }
-            String word = reverse(str.substring(i, j));
+            
+            String word = reverse(rev.substring(i, j));
             sb.append(word);
-            sb.append(" ");
+            sb.append(' ');
             i = j;
         }
-        String res = sb.toString();
-        return res.substring(0, res.length()-1);
+        
+        int len = sb.length();
+        return sb.toString().substring(0, len-1);
     }
 }

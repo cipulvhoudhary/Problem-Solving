@@ -12,8 +12,9 @@ class Solution {
     
     private int getLength(ListNode head) {
         ListNode temp = head;
+                              
+        // 1 -> 2 -> 3 -> X
         int len = 0;
-        
         while(temp != null) {
             len++;
             temp = temp.next;
@@ -21,45 +22,38 @@ class Solution {
         return len;
     }
     
-    private ListNode reverse(ListNode head) {
-        ListNode curr = head;
-        ListNode prev = null;
+    private ListNode reverse(ListNode head, int k) {
+        if(head == null) return head;
         
-        while(curr != null) {
+        ListNode prev = null, curr = head;
+        while(curr != null && k > 0) {
+            k--;
             ListNode temp = curr.next;
             curr.next = prev;
             prev = curr;
             curr = temp;
         }
+        head.next = curr;
         return prev;
     }
     
     public ListNode rotateRight(ListNode head, int k) {
         if(head == null) return null;
         
-        int N = getLength(head);
-        k = k % N;
+        int len = getLength(head);
+        k = k%len;
         
         if(k == 0) return head;
         
-        // step 1 :: reverse whole list
-        head = reverse(head);
+        // reverse complete list
+        ListNode head2 = reverse(head, len);
         
-        // Reverse first k elements
-        int count = k;
-        ListNode curr = head;
-        ListNode prev = null;
-        while(count > 0) {
-            count--;
-            ListNode temp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = temp;
-        }
+        //reverse head2 for k nodes
+        ListNode head3 = reverse(head2, k);
         
-        // Reverse left out list whose head = curr
-        // And join it in curr list's head
-        head.next = reverse(curr);
-        return prev;
+        // reverse head.next by (len-k) nodes
+        head2.next = reverse(head2.next, len-k);
+        
+        return head3;
     }
 }

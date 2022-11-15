@@ -10,27 +10,41 @@
  */
 class Solution {
     public ListNode oddEvenList(ListNode head) {
-        // Edge case
-        if(head == null || head.next == null) return head;
+        if(head == null) return head;
         
-        ListNode head2 = head.next;
-        ListNode t1 = head;
-        ListNode t2 = head2;
+        // Dummy nodes to avoid unnecessary if-else construct
+        ListNode l1 = new ListNode(0, null);
+        ListNode l2 = new ListNode(0, null);
         
-        while(t1 != null && t2 != null) {
-            t1.next = t2.next;
-            if(t1.next != null) {
+        ListNode t1 = l1;
+        ListNode t2 = l2;
+        ListNode t = head;
+        int c = 0;
+        
+        while(t != null) {
+            c++;
+            if(c%2 != 0) {
+                t1.next = t;
                 t1 = t1.next;
             }
             else {
-                break;
-            }
-            if(t1 != null) {
-                t2.next = t1.next;
+                t2.next = t;
                 t2 = t2.next;
             }
+            t = t.next;
         }
-        t1.next = head2;
-        return head;
+        
+        // To remove dummy nodes 
+        l1 = l1.next;
+        l2 = l2.next;
+        
+        // To avoid unnecessary cycle forming
+        t1.next = null;
+        t2.next = null;
+        
+        if(l1 == null) return l2;
+        
+        t1.next = l2;
+        return l1;
     }
 }

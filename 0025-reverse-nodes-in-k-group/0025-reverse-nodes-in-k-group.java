@@ -17,6 +17,7 @@ class Solution {
         while(count > 0) {
             if(curr == null) {
                 int _k = k-count;
+                head = null;
                 return reverseKchunks(prev, _k);
             }
             ListNode temp = curr.next;
@@ -34,7 +35,9 @@ class Solution {
         if(head == null || head.next == null) return head;
         
         ListNode prev = reverseKchunks(head, k);
-        head.next = reverseKGroup(head.next, k);
+        if(head != null) {
+            head.next = reverseKGroup(head.next, k);
+        }
         return prev;
     }
 }

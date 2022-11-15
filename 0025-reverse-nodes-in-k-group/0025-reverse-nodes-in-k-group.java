@@ -9,42 +9,32 @@
  * }
  */
 class Solution {
-    
-    private ListNode reverse(ListNode head) {
-        ListNode curr = head;
-        ListNode prev = null;
+    public ListNode reverseKchunks(ListNode head, int k) {
+        if(head == null || head.next == null) return head;
         
-        while(curr != null) {
+        int count = k;
+        ListNode prev = null, curr = head;
+        while(count > 0) {
+            if(curr == null) {
+                int _k = k-count;
+                return reverseKchunks(prev, _k);
+            }
             ListNode temp = curr.next;
             curr.next = prev;
             prev = curr;
             curr = temp;
+            count--;
         }
+        head.next = curr;
         return prev;
     }
     
     public ListNode reverseKGroup(ListNode head, int k) {
-        if(head == null) return null;
-        if(k == 1) return head;
+        // Edge - case
+        if(head == null || head.next == null) return head;
         
-        ListNode curr = head;
-        ListNode prev = null;
-        
-        int count = k;
-        while(count > 0 && curr != null) {
-            count--;
-            ListNode temp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = temp;
-        }
-        
-        if(count != 0) {
-            return reverse(prev);
-        }
-        
-        head.next = reverseKGroup(curr, k);
+        ListNode prev = reverseKchunks(head, k);
+        head.next = reverseKGroup(head.next, k);
         return prev;
     }
-    
 }

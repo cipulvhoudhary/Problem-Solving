@@ -11,10 +11,17 @@
  */
 public class Solution {
     public ListNode detectCycle(ListNode head) {
-        if(head == null) return null;
+        /* 
+        Algo ::
+        - Find the cycle point
+        - Take slow and fast at head, move slow by one node and fast by two node
+        - If they never met, fat will become null, return null :: No cycle 
+        - Cycle point :: where slow and fast pointer met first
+        - Now start slow at head and fast at cycle point, move them one node at a time till they met
+        - When they met, return slow(or fast)
+        */
         
-        ListNode slow = head;
-        ListNode fast = head;
+        ListNode slow = head, fast = head;
         ListNode cyclePoint = null;
         
         while(fast != null && fast.next != null) {
@@ -26,6 +33,8 @@ public class Solution {
                 break;
             }
         }
+        
+        // if no cycle :: cycle point will be at null only
         if(cyclePoint == null) return null;
         
         slow = head;

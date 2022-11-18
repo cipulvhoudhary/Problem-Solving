@@ -22,12 +22,13 @@ class Solution {
         Node t1 = head;
         Node t2 = head2;
         
+        // Cpy the list with only next pointer
         while(t1 != null) {
             Node copyNode = new Node(t1.val);
             t2.next = copyNode;
             t2 = t2.next;
             
-            // Put this in map
+            // Put this in map :: key --> main list node, value --> copy list node
             map.put(t1, t2);
             
             t1 = t1.next;
@@ -40,12 +41,12 @@ class Solution {
         t1 = head;
         t2 = head2;
         
+        // mapping random pointer of node of copy list
         while(t1 != null) {
             t2.random = map.get(t1.random);
             t1 = t1.next;
             t2 = t2.next;
         }
-        
         return head2;
     }
 }

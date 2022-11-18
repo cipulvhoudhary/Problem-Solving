@@ -10,59 +10,50 @@
  */
 class Solution {
     
-    private ListNode reverse(ListNode head) {
-        ListNode prev = null, curr = head;
-        while(curr != null) {
-            ListNode temp = curr.next;
-            curr.next = prev; 
-            prev = curr;
-            curr = temp;
+    // This function will create a list whose list(i) = node.val
+    // TC --> O(N) || SC -> O(N)
+    private void convertListToArrayList(ListNode head, ArrayList<Integer> list) {
+        ListNode temp = head;
+        while(temp != null) {
+            list.add(temp.val);
+            temp = temp.next;
         }
-        return prev;
     }
     
-    private ArrayList<Integer> getNextGreater(ListNode head, ArrayList<Integer> list) {
-        // for firts element --> since there is no element greater before, we add 0 to list
-        list.add(0);
+    
+    // This function for every element in the list, will find the next greater element to it's right
+    // and add it in nextGreater[] and return the final array
+    // TC --> O(N) || SC --> O(N)
+    private int[] getNextGreater(ArrayList<Integer> list) {
+        // for last element --> since there is no element greater after that, we add 0 to list+
+        int[] nextGreater = new int[list.size()];
+        nextGreater[list.size()-1] = 0;
         
-        // from first node
-        ListNode temp = head.next;
+        Stack<Integer> st = new Stack<>(); //monotonous decreasing stack
+        st.push(list.get(list.size()-1));
         
-        Stack<Integer> st = new Stack<>();
-        st.push(head.val);
-        
-        while(temp != null) {
-            while(!st.isEmpty() && st.peek() <= temp.val) {
+        for(int i=list.size()-2; i>=0; i--) {
+            while(!st.isEmpty() && st.peek() <= list.get(i)) {
                 st.pop();
             }
             
-            if(st.isEmpty()) {
-                list.add(0);
-            }
-            else {
-                list.add(st.peek());
-            }
+            if(!st.isEmpty()) {
+                nextGreater[i] = st.peek();
+            } // else nextGreater[i] = 0, which is already a default value of int[]-
             
-            st.push(temp.val);
-            temp = temp.next;
+            st.push(list.get(i));
         }
         
-        return list;
+        return nextGreater;
     }
     
+    // TC --> O(N) || SC --> O(N)
     public int[] nextLargerNodes(ListNode head) {
         ArrayList<Integer> list = new ArrayList<>();
+        convertListToArrayList(head, list);
         
-        head = reverse(head);
+        int[] nextGreater = getNextGreater(list);
         
-        list = getNextGreater(head, list);
-        
-        int[] res = new int[list.size()];
-        
-        int ind = 0;
-        for(int i=list.size()-1; i>=0; i--) {
-            res[ind++] = list.get(i);
-        }
-        return res;
+        return nextGreater;
     }
 }

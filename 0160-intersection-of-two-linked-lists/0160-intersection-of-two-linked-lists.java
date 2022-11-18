@@ -10,17 +10,51 @@
  * }
  */
 public class Solution {
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if(headA == null || headB == null) return null;
-        if(headA == headB) return headA;
-        
-        ListNode t1= headA;
-        ListNode t2 = headB;
-        
-        while(t1 != t2) {
-            t1 = (t1 == null) ? t1 = headB : t1.next;
-            t2 = (t2 == null) ? t2 = headA : t2.next;
+    
+    // Helper 1 
+    // This function will return the length of list at head
+    // TC --> Max(O(M), O(N))
+    private int getLength(ListNode head) {
+        ListNode temp = head;
+        int len = 0;
+        while(temp != null) {
+            len++;
+            temp = temp.next;
         }
-        return t1;
+        return len;
+    }
+    
+    // Helper2
+    // This function will shift head by delta
+    // TC --> Max(O(M), O(N))
+    private ListNode shiftHead(ListNode head, int delta) {
+        ListNode newHead = head;
+        while(delta > 0 && newHead != null) {
+            newHead = newHead.next;
+            delta--;
+        }
+        return newHead;
+    }
+    
+    // TC --> O(M+N) || SC --> O(1)
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int lenA = getLength(headA); // O(M) : Helper 1 
+        int lenB = getLength(headB); // O(N) : Helper 1 
+        
+        ListNode newHeadA = headA, newHeadB = headB;
+        int delta = lenA - lenB;
+        if(delta > 0) { //length of list A > list B
+            newHeadA = shiftHead(headA, delta); // O(M) : Helper2
+        }
+        else if(delta < 0) { //length of list A < list B
+            // delta is negative, so sending positive value
+            newHeadB = shiftHead(headB, -delta); // O(N) : Helper2
+        }
+        
+        while(newHeadA != newHeadB) { // TC --> O(Max(O(M), O(N)))
+            newHeadA = newHeadA.next;
+            newHeadB = newHeadB.next;
+        }
+        return newHeadA;
     }
 }

@@ -32,6 +32,18 @@ class Solution {
         return Math.min(cost1, cost2);
     }
     
+    private int minCostClimbingStairsSpaceOptimized(int[] cost) {
+        int N = cost.length;
+        int n1StepCost = cost[N-2], n2StepCost = cost[N-1];
+        
+        for(int ind=cost.length-3; ind>=0; ind--) {
+            int currCost = cost[ind] + Math.min(n1StepCost, n2StepCost);
+            n2StepCost = n1StepCost;
+            n1StepCost = currCost;
+        }
+        return Math.min(n1StepCost, n2StepCost);
+    }
+    
     public int minCostClimbingStairs(int[] cost) {
         
         // Approach 1 :: Memoization
@@ -42,7 +54,10 @@ class Solution {
 //         return Math.min(minCostClimbingStairsMemoization(0, cost, dp), minCostClimbingStairsMemoization(1, cost, dp));
         
         // Approach 2 :: Tabulation
-        return minCostClimbingStairsTabulation(cost);
+        // return minCostClimbingStairsTabulation(cost);
+        
+        // Approach 3 :: Space - Optimized
+        return minCostClimbingStairsSpaceOptimized(cost);
     }
     
 }

@@ -1,5 +1,7 @@
 class Solution {
     
+    // Approach 1 :: Memoization
+    // TC --> O(N) || SC --> O(N)
     private int minCostClimbingStairsMemoization(int ind, int[] cost, int[] dp) {
         // Base - case
         if(ind >= cost.length) return 0;
@@ -13,6 +15,8 @@ class Solution {
         return dp[ind];
     }
     
+    // Approach 1 :: Tabulation
+    // TC --> O(N) || SC --> O(N)
     private int minCostClimbingStairsTabulation(int[] cost) {
         int N = cost.length;
         int[] dp = new int[N+1];
@@ -31,13 +35,14 @@ class Solution {
     public int minCostClimbingStairs(int[] cost) {
         
         // Approach 1 :: Memoization
-        int N = cost.length;
-        int[] dp = new int[N];
-        Arrays.fill(dp, -1);
-        return Math.min(minCostClimbingStairsMemoization(0, cost, dp), minCostClimbingStairsMemoization(1, cost, dp));
+        // TC --> O(N) || SC --> O(N)
+//         int N = cost.length;
+//         int[] dp = new int[N];
+//         Arrays.fill(dp, -1);
+//         return Math.min(minCostClimbingStairsMemoization(0, cost, dp), minCostClimbingStairsMemoization(1, cost, dp));
         
         // Approach 2 :: Tabulation
-        // return minCostClimbingStairsTabulation(cost);
+        return minCostClimbingStairsTabulation(cost);
     }
     
 }

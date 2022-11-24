@@ -18,7 +18,7 @@ class Solution {
     }
     
     // Tabulation
-    
+    // TC --> O(N) || SC --> O(N)
     private int houseRobber1Tabulation(int s, int e, int[] nums) {
         int[] dp = new int[e - s + 1];
         
@@ -34,6 +34,26 @@ class Solution {
         return dp[e-s];
     }
     
+    // Space - optimized
+    // TC --> O(N) || SC --> O(1)
+    private int houseRobber1SpaceOptimized(int s, int e, int[] nums) {
+        if(s == e) return nums[s]; // single element
+        int prev2 = nums[s];
+        int prev = 0;
+        if(s < e) prev = Math.max(nums[s], nums[s+1]);
+        
+        for(int ind=s+2; ind<=e; ind++) {
+            int notRobbed = 0 + prev;
+            int robbed = nums[ind] + prev2;
+            
+            int curr = Math.max(notRobbed, robbed);
+            
+            prev2 = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+    
     private int houseRobber1(int s, int e, int[] nums) {
         
         // Memoization 
@@ -43,7 +63,10 @@ class Solution {
         // return houseRobber1Util(s, e, nums, dp);
         
         // Tabulation
-        return houseRobber1Tabulation(s, e, nums);
+        // return houseRobber1Tabulation(s, e, nums);
+        
+        // Space - optimized
+        return houseRobber1SpaceOptimized(s, e, nums);
     }
     
     

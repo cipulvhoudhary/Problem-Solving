@@ -35,7 +35,7 @@ class Solution {
 
             dp[ind] = Math.max(notRobbed, robbed);
         }
-        return dp[N];
+        return dp[N-1];
     }
     
     // Approach 3 :: Space - optimized
@@ -80,9 +80,9 @@ class Solution {
         // return robMemoization(N-1, nums, dp);
         
         // Approach 2 :: Tabulation
-        // return robTabulation(nums);
+        return robTabulation(nums);
         
         // Approach 3 :: Space - optimized
-        return robSpaceOptimized(nums);
+        // return robSpaceOptimized(nums);
     }
 }

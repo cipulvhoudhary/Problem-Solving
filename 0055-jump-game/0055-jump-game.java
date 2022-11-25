@@ -9,18 +9,17 @@ class Solution {
         if(nums[ind] == 0) return false; // if jump is not possible
         
         // Main - logic
-        if(dp[ind] == -1) {
-            boolean canReach = false;
-            int maxJump = nums[ind];
-            for(int jump=1; jump<=maxJump; jump++) {
-                if(canJumpUtil(ind+jump, N, nums, dp)) {
-                    canReach = true;
-                    break;
-                }
+        if(dp[ind] != -1) return (dp[ind]==1) ? true : false;
+        
+        int maxJump = nums[ind];
+        for(int jump=1; jump<=maxJump; jump++) {
+            if(canJumpUtil(ind+jump, N, nums, dp)) {
+                dp[ind] = 1;
+                return true;
             }
-            dp[ind] = (canReach) ? 1 : 0; 
         }
-        return (dp[ind] == 1) ? true : false; 
+        dp[ind] = 0;
+        return false;
     }
     
     public boolean canJump(int[] nums) {

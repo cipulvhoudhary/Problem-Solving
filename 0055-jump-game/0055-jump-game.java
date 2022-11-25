@@ -1,8 +1,12 @@
 class Solution {
     
     private boolean canJumpUtil(int ind, int N, int[] nums, int[] dp) {
-        // Base - case :: if last index is reached -- true
-        if(ind == N-1) return true;
+        // boundary - condition
+        if(ind >= N) return false; 
+        
+        // Base - case :: 
+        if(ind == N-1) return true; // if last index is reached -- true
+        if(nums[ind] == 0) return false; // if jump is not possible
         
         // Main - logic
         if(dp[ind] == -1) {

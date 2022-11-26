@@ -9,26 +9,47 @@ class Solution {
         if(nums[ind] == 0) return false; // if jump is not possible
         
         // Main - logic
-        if(dp[ind] != -1) return (dp[ind]==1) ? true : false;
+        if(dp[ind] == -1) {
+            boolean canReach = false;
+            int maxJump = nums[ind];
+            for(int jump=1; jump<=maxJump; jump++) {
+                if(canJumpUtil(ind+jump, N, nums, dp)) {
+                    canReach = true;
+                    break;
+                }
+            }
+            dp[ind] = (canReach) ? 1 : 0; 
+        }
+        return (dp[ind] == 1) ? true : false; 
+    }
+    
+    private boolean canJumpUtil(int[] nums) {
+        int N = nums.length;
+        int[] dp = new int[N];
         
-        int maxJump = nums[ind];
-        for(int jump=1; jump<=maxJump; jump++) {
-            if(canJumpUtil(ind+jump, N, nums, dp)) {
-                dp[ind] = 1;
-                return true;
+        dp[N-1] = 1;
+        
+        for(int i=N-2; i>=0; i--) {
+            int maxJump = nums[i];
+            if(maxJump == 0) continue;
+            for(int j=1; j<=maxJump; j++) {
+                if((i+j < N) && (dp[i] != 1 && dp[i+j] == 1)) {
+                    dp[i] = 1;
+                }
             }
         }
-        dp[ind] = 0;
-        return false;
+        return (dp[0] == 1) ? true : false;
     }
     
     public boolean canJump(int[] nums) {
-        int N = nums.length;
+        // Memoization
+        // int N = nums.length;
+        // int[] dp = new int[N];
+        // Arrays.fill(dp, -1);
+        // return canJumpUtil(0, N, nums, dp);
         
-        int[] dp = new int[N];
-        Arrays.fill(dp, -1);
-        
-        return canJumpUtil(0, N, nums, dp);
+        // Tabulation 
+        return canJumpUtil(nums);
     }
     
 }

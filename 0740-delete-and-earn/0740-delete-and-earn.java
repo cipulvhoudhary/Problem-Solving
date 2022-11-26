@@ -1,14 +1,14 @@
 class Solution {
     
-    private int deleteAndEarnUtil(int ind, int[] freq, int[] dp) {
+    private int deleteAndEarnUtil(int ind, int[] points, int[] dp) {
         // Base - case
-        if(ind == 0) return 0;
-        if(ind == 1) return freq[1];
+        if(ind == 0) return points[0]; // in case of single element
+        if(ind == 1) return Math.max(points[0], points[1]); // in case of double element
         
         // Main - logic 
         if(dp[ind] == -1) {
-            int notDeleted = 0 + deleteAndEarnUtil(ind-1, freq, dp);
-            int deleted = (ind * freq[ind]) + deleteAndEarnUtil(ind-2, freq, dp);
+            int notDeleted = 0 + deleteAndEarnUtil(ind-1, points, dp);
+            int deleted = points[ind] + deleteAndEarnUtil(ind-2, points, dp);
 
             dp[ind] = Math.max(notDeleted, deleted);
         }
@@ -46,9 +46,17 @@ class Solution {
             freq[nums[i]]++;
         }
         
+        // converting freq array to Points array
+        for(int i=0; i<freq.length; i++) {
+            freq[i] = i*freq[i];
+        }
+        
+        // changing the reference for better readability
+        int[] points = freq;
+        
         int[] dp = new int[2*10000+1];
         Arrays.fill(dp, -1);
         
-        return deleteAndEarnUtil(freq.length-1, freq, dp);
+        return deleteAndEarnUtil(freq.length-1, points, dp);
     }
 }

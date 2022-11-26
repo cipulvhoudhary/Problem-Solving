@@ -41,6 +41,19 @@ class Solution {
         return (dp[0] == 1) ? true : false;
     }
     
+    private boolean canJumpHelper(int[] nums) {
+        int N = nums.length;
+        int reachable = 0;
+        
+        for(int i=0; i<N; i++) {
+            if(reachable < i) 
+                return false;
+            
+            reachable = Math.max(reachable, i+nums[i]);
+        }
+        return true;
+    }
+    
     public boolean canJump(int[] nums) {
         // Memoization
         // int N = nums.length;
@@ -49,7 +62,10 @@ class Solution {
         // return canJumpUtil(0, N, nums, dp);
         
         // Tabulation 
-        return canJumpUtil(nums);
+        // return canJumpUtil(nums);
+        
+        // Helper
+        return canJumpHelper(nums);
     }
     
 }

@@ -32,10 +32,10 @@ class Solution {
         for(int i=N-2; i>=0; i--) {
             int maxJump = nums[i];
             if(maxJump == 0) continue;
-            int j=1;
-            while(j <= maxJump && dp[i] != 1) {
+            int j=maxJump;
+            while(j >=1 && dp[i] != 1) {
                 if(i+j < N && dp[i+j] == 1) dp[i] = 1;
-                j++;
+                j--;
             }
         }
         return (dp[0] == 1) ? true : false;

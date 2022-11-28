@@ -60,12 +60,12 @@ class Solution {
         int N = prices.length;
         
         // Approach 1 :: Memoization
-        int[][] dp = new int[N][2];
-        for(int[] row : dp) Arrays.fill(row, -1);
+//         int[][] dp = new int[N][2];
+//         for(int[] row : dp) Arrays.fill(row, -1);
         
-        return maxProfitMemoization(0, 1, prices, dp);
+//         return maxProfitMemoization(0, 1, prices, dp);
         
         // Approach 2 :: Tabulation
-        // return maxProfitTabulation(prices);
+        return maxProfitTabulation(prices);
     }
 }

@@ -42,6 +42,8 @@ class Solution {
     }
     
     
+    // Approach 2 :: Tabulation
+    // TC --> O(N) || SC --> O(N)
     private int maxProfitTabulation(int[] prices, int N, int fee) {
         int[][] dp = new int[N][2];
         
@@ -68,6 +70,35 @@ class Solution {
         return dp[0][1];
     }
     
+    
+    // Approach 3 :: Space - optimization
+    // TC --> O(N) || SC --> O(1)
+    private int maxProfitSpaceOptimized(int[] prices, int N, int fee) {
+        int[] dp = new int[2];
+        
+        // Base - case
+        dp[0] = (prices[N-1] - fee < 0) ? 0 : prices[N-1] - fee;
+        
+        // Main - logic
+        for(int ind=N-2; ind>=0; ind--) {
+            int profit = 0;
+            for(int canBuy=1; canBuy>=0; canBuy--) {
+                if(canBuy == 1) {
+                    int buy = -prices[ind] + dp[0];
+                    int notBuy = 0 + dp[1];
+                    profit = Math.max(buy, notBuy);
+                }
+                else {
+                    int sell = (prices[ind] - fee) + dp[1];
+                    int notSell = 0 + dp[0];
+                    profit = Math.max(sell, notSell);
+                }
+                dp[canBuy] = profit;
+            }
+        }
+        return dp[1];
+    }
+    
     public int maxProfit(int[] prices, int fee) {
         int N = prices.length;
         
@@ -78,6 +109,9 @@ class Solution {
         // return maxProfitMemoization(0, canBuy, N, prices, fee, dp);
         
         // Approach 2 :: Tabulation
-        return maxProfitTabulation(prices, N, fee);
+        // return maxProfitTabulation(prices, N, fee);
+        
+        // Approach 3 :: Space - optimization
+        return maxProfitSpaceOptimized(prices, N, fee);
     }
 }

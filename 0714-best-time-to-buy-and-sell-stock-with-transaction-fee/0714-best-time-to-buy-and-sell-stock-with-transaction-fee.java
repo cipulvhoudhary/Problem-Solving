@@ -1,6 +1,8 @@
 class Solution {
     
-    private int maxProfitUtil(int ind, int canBuy, int N, int[] prices, int fee, int[][] dp) {
+    // Approach 1 :: Memoization
+    // TC --> O(N) || SC --> O(N)
+    private int maxProfitMemoization(int ind, int canBuy, int N, int[] prices, int fee, int[][] dp) {
         
         // Boundary - condition
         if(ind >= N) return 0;
@@ -25,13 +27,13 @@ class Solution {
         if(dp[ind][canBuy] == -1) {
             int profit = 0;
             if(canBuy == 1) {
-                int buy = -prices[ind] + maxProfitUtil(ind+1, 0, N, prices, fee, dp);
-                int notBuy = 0 + maxProfitUtil(ind+1, 1, N, prices, fee, dp);
+                int buy = -prices[ind] + maxProfitMemoization(ind+1, 0, N, prices, fee, dp);
+                int notBuy = 0 + maxProfitMemoization(ind+1, 1, N, prices, fee, dp);
                 profit = Math.max(buy, notBuy);
             }
             else {
-                int sell = (prices[ind] - fee) + maxProfitUtil(ind+1, 1, N, prices, fee, dp);
-                int notSell = 0 + maxProfitUtil(ind+1, 0, N, prices, fee, dp);
+                int sell = (prices[ind] - fee) + maxProfitMemoization(ind+1, 1, N, prices, fee, dp);
+                int notSell = 0 + maxProfitMemoization(ind+1, 0, N, prices, fee, dp);
                 profit = Math.max(sell, notSell);
             }
             dp[ind][canBuy] = profit;
@@ -39,13 +41,43 @@ class Solution {
         return dp[ind][canBuy];
     }
     
+    
+    private int maxProfitTabulation(int[] prices, int N, int fee) {
+        int[][] dp = new int[N][2];
+        
+        // Base - case
+        dp[N-1][0] = (prices[N-1] - fee < 0) ? 0 : prices[N-1] - fee;
+        
+        // Main - logic
+        for(int ind=N-2; ind>=0; ind--) {
+            int profit = 0;
+            for(int canBuy=1; canBuy>=0; canBuy--) {
+                if(canBuy == 1) {
+                    int buy = -prices[ind] + dp[ind+1][0];
+                    int notBuy = 0 + dp[ind+1][1];
+                    profit = Math.max(buy, notBuy);
+                }
+                else {
+                    int sell = (prices[ind] - fee) + dp[ind+1][1];
+                    int notSell = 0 + dp[ind+1][0];
+                    profit = Math.max(sell, notSell);
+                }
+                dp[ind][canBuy] = profit;
+            }
+        }
+        return dp[0][1];
+    }
+    
     public int maxProfit(int[] prices, int fee) {
         int N = prices.length;
         
-        int[][] dp = new int[N][2];
-        for(int[] row : dp) Arrays.fill(row, -1);
+        // Approach 1 :: Memoization
+        // int[][] dp = new int[N][2];
+        // for(int[] row : dp) Arrays.fill(row, -1);
+        // int canBuy = 1;
+        // return maxProfitMemoization(0, canBuy, N, prices, fee, dp);
         
-        int canBuy = 1;
-        return maxProfitUtil(0, canBuy, N, prices, fee, dp);
+        // Approach 2 :: Tabulation
+        return maxProfitTabulation(prices, N, fee);
     }
 }

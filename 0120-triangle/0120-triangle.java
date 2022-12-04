@@ -58,12 +58,12 @@ class Solution {
         int m = triangle.get(n-1).size();
         
         // Approach - 1 :: Memoization
-        int[][] dp = new int[n][m];
-        for(int[] row : dp) Arrays.fill(row, -1);
-        return minimumTotalMemoization(0, 0, n, m, triangle, dp);
+        // int[][] dp = new int[n][m];
+        // for(int[] row : dp) Arrays.fill(row, -1);
+        // return minimumTotalMemoization(0, 0, n, m, triangle, dp);
         
         // Approach - 2 :: Tabulation
-        // return minimumTotalTabulation(n, m, triangle);
+        return minimumTotalTabulation(n, m, triangle);
         
         // Approach - 3 :: SpaceOptimized
         // return minimumTotalSpaceOptimized(n, m, triangle);

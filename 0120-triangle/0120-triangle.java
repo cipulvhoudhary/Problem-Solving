@@ -63,10 +63,10 @@ class Solution {
         // return minimumTotalMemoization(0, 0, n, m, triangle, dp);
         
         // Approach - 2 :: Tabulation
-        return minimumTotalTabulation(n, m, triangle);
+        // return minimumTotalTabulation(n, m, triangle);
         
         // Approach - 3 :: SpaceOptimized
-        // return minimumTotalSpaceOptimized(n, m, triangle);
+        return minimumTotalSpaceOptimized(n, m, triangle);
     }
     
 }
